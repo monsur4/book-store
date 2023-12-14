@@ -29,7 +29,8 @@ public class Book {
     /**
      * The author
      */
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id")
     private Author author;
 
     /**

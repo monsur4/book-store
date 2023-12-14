@@ -14,6 +14,7 @@ import com.mon.bookstore.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -108,6 +109,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional
     public void deleteBookByTitle(String title) {
         bookRepository.deleteByTitle(title);
     }
