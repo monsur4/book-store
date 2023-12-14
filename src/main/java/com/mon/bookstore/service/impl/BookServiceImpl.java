@@ -75,9 +75,9 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookDto updateBookDetails(BookUpdateRequestDto dto, String id) {
-        Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new BookNotFoundException(String.format("book with this id [%s] cannot be found", id)));
+    public BookDto updateBookDetails(BookUpdateRequestDto dto, String title) {
+        Book book = bookRepository.findByTitle(title)
+                .orElseThrow(() -> new BookNotFoundException(String.format("book with this title [%s] cannot be found", title)));
         if (dto.getTitle() != null) {
             book.setTitle(dto.getTitle());
         }
@@ -108,8 +108,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void deleteBookById(String id) {
-        bookRepository.deleteById(id);
+    public void deleteBookByTitle(String title) {
+        bookRepository.deleteByTitle(title);
     }
 
     private BookDto mapBookToDto(Book book) {

@@ -30,10 +30,11 @@ public class BookController {
     }
 
     @Operation(
-            summary = "Fetch a book by id",
+            summary = "Fetch a book by id [concept of id need to be clarified]",
             description = "fetches a book entity by id and its data from data source")
     @GetMapping("/id/{id}")
     public ResponseEntity<BookDto> fetchBookById(@PathVariable String id){
+        // TODO: concept of id need to be clarified, as we cannot expose database id
         return ResponseEntity.ok(bookService.getBookById(id));
     }
 
@@ -65,16 +66,16 @@ public class BookController {
     @Operation(
             summary = "Update book details",
             description = "Updates the details of a book")
-    @PatchMapping("/id/{id}")
-    public ResponseEntity<?> updateBook(@RequestBody BookUpdateRequestDto dto, @PathVariable String id){
-        return ResponseEntity.accepted().body(bookService.updateBookDetails(dto, id));
+    @PatchMapping("/title/{title}")
+    public ResponseEntity<?> updateBook(@RequestBody BookUpdateRequestDto dto, @PathVariable String title){
+        return ResponseEntity.accepted().body(bookService.updateBookDetails(dto, title));
     }
 
     @Operation(
             summary = "Delete book",
-            description = "Delete a book by id from data source")
-    @DeleteMapping("/id/{id}")
-    public void deleteBook(@PathVariable String id){
-        bookService.deleteBookById(id);
+            description = "Delete a book by title from data source")
+    @DeleteMapping("/title/{title}")
+    public void deleteBook(@PathVariable String title){
+        bookService.deleteBookByTitle(title);
     }
 }

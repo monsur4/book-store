@@ -20,7 +20,7 @@ public interface BookService {
 
     BookDto updateBookDetails(BookUpdateRequestDto dto, String id);
 
-    void deleteBookById(String id);
+    void deleteBookByTitle(String title);
 
     RetrievedBooksResponseDto retrieveBooks(String title, Integer number);
 
