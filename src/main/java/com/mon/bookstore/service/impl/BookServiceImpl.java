@@ -34,10 +34,10 @@ public class BookServiceImpl implements BookService {
 
         Book book = new Book();
         BeanUtils.copyProperties(dto, book);
-        book.setNoAvailable(1);
+        book.setNumberAvailable(1);
 
         Author author;
-        String authorName = book.getAuthor().getName();
+        String authorName = dto.getAuthor().getName();
         Optional<Author> optionalAuthor = authorRepository.findByName(authorName);
         if (optionalAuthor.isPresent()) {
             author = optionalAuthor.get();
@@ -45,7 +45,7 @@ public class BookServiceImpl implements BookService {
             author = new Author();
             author.setName(authorName);
         }
-        author.getBook().add(book);
+//        author.getBook().add(book);
         book.setAuthor(author);
         Book savedBook = bookRepository.save(book);
 
@@ -101,7 +101,7 @@ public class BookServiceImpl implements BookService {
             book.setAuthor(author);
         }
         if(dto.getNumberToAdd() != null){
-            book.setNoAvailable(book.getNoAvailable() + dto.getNumberToAdd());
+            book.setNumberAvailable(book.getNumberAvailable() + dto.getNumberToAdd());
         }
         bookRepository.save(book);
         return mapBookToDto(book);
@@ -116,6 +116,7 @@ public class BookServiceImpl implements BookService {
         BookDto bookDto = new BookDto();
         BeanUtils.copyProperties(book, bookDto);
         bookDto.setAuthor(book.getAuthor().getName());
+        bookDto.setNumberAvailable(book.getNumberAvailable());
         return bookDto;
     }
 
@@ -123,11 +124,11 @@ public class BookServiceImpl implements BookService {
     public RetrievedBooksResponseDto retrieveBooks(String title, Integer number) {
         Book book = bookRepository.findByTitle(title)
                 .orElseThrow(() -> new BookNotFoundException(String.format("there is no book with title [%s] in store", title)));
-        if (book.getNoAvailable() < number){
+        if (book.getNumberAvailable() < number){
             throw new BookServiceException(String.format("there is not enough books with title [%s] to retrieve", title));
         }
-        Integer numberRemaining = book.getNoAvailable() - number;
-        book.setNoAvailable(numberRemaining);
+        Integer numberRemaining = book.getNumberAvailable() - number;
+        book.setNumberAvailable(numberRemaining);
         bookRepository.save(book);
         return RetrievedBooksResponseDto.builder()
                 .title(book.getTitle())
@@ -136,5 +137,12 @@ public class BookServiceImpl implements BookService {
                 .numberRetrieved(number)
                 .numberRemaining(numberRemaining)
                 .build();
+    }
+
+    @Override
+    public BookDto getBookByTitle(String title) {
+        Book book = bookRepository.findByTitle(title)
+                .orElseThrow(() -> new BookNotFoundException(String.format("book with this title [%s] cannot be found", title)));
+        return mapBookToDto(book);
     }
 }

@@ -7,7 +7,7 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BookDto {
     private String title;
-    private String pageCount;
+    private Integer pageCount;
     private String author;
     private String isbn;
     private Integer numberAvailable;

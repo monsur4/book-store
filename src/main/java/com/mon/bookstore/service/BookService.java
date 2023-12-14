@@ -23,4 +23,6 @@ public interface BookService {
     void deleteBookById(String id);
 
     RetrievedBooksResponseDto retrieveBooks(String title, Integer number);
+
+    BookDto getBookByTitle(String title);
 }

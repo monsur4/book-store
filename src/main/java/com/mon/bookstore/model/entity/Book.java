@@ -40,5 +40,5 @@ public class Book {
     /**
      * The number of this book available in the store
      */
-    private Integer noAvailable = 0;
+    private Integer numberAvailable = 0;
 }

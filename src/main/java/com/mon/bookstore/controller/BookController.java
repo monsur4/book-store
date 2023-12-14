@@ -33,8 +33,16 @@ public class BookController {
             summary = "Fetch a book by id",
             description = "fetches a book entity by id and its data from data source")
     @GetMapping("/id/{id}")
-    public ResponseEntity<BookDto> getBook(@PathVariable String id){
+    public ResponseEntity<BookDto> fetchBookById(@PathVariable String id){
         return ResponseEntity.ok(bookService.getBookById(id));
+    }
+
+    @Operation(
+            summary = "Fetch a book by title",
+            description = "fetches a book entity by title and its data from data source")
+    @GetMapping("/title/{title}")
+    public ResponseEntity<BookDto> fetchBookByTitle(@PathVariable String title){
+        return ResponseEntity.ok(bookService.getBookByTitle(title));
     }
 
     @Operation(
