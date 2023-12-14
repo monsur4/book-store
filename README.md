@@ -55,3 +55,6 @@ Then build the Docker image
         dburl = url=jdbc:h2:mem:test
          user = test123
          password = test123
+3. Find the api documentation on swagger ui, available at 
+
+        http://localhost:8080/api/v1/swagger-ui/index.html
