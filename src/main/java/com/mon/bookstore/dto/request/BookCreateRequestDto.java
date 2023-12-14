@@ -10,7 +10,7 @@ import lombok.Data;
 public class BookCreateRequestDto {
     @NotEmpty(message = "title must not be empty")
     private String title;
-    @Positive
+    @Positive(message = "pageCount must be a positive number")
     private Integer pageCount;
     @Valid
     private AuthorDto author;
