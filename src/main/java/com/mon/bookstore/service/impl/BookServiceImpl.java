@@ -67,11 +67,13 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<BookDto> getBooksByAuthor(String authorName) {
+        // TODO: not currently implemented
         return null;
     }
 
     @Override
     public BookDto getBookIsbn(String isbn) {
+        // TODO: not currently implemented
         return null;
     }
 
