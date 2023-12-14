@@ -44,3 +44,14 @@ This creates a jar file located in `target/book-store-0.0.1-SNAPSHOT.jar`
 Then build the Docker image
 
     docker build -t book-store:v1 .
+
+### NB: 
+1. This service uses basic authentication
+
+        username = test
+        password = test
+2. An h2 in-memory database on the development profile
+
+        dburl = url=jdbc:h2:mem:test
+         user = test123
+         password = test123
