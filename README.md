@@ -9,7 +9,7 @@ You'll need to meet the requirements below to have the service running on your m
 ## Prerequisites
 Requirements for the software and other tools to build, test and push
 - [Docker](https://www.docker.com)
-- [Java 11 or above](https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html)
+- [Java 17 or above](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
 - maven
 
 ## Setup
