@@ -33,9 +33,9 @@ public class BookController {
             summary = "Fetch a book by id [concept of id need to be clarified]",
             description = "fetches a book entity by id and its data from data source")
     @GetMapping("/id/{id}")
-    public ResponseEntity<BookDto> fetchBookById(@PathVariable String id){
+    public ResponseEntity<?> fetchBookById(@PathVariable String id){
         // TODO: concept of id need to be clarified, as we cannot expose database id
-        return ResponseEntity.ok(bookService.getBookById(id));
+        return ResponseEntity.badRequest().body("the concept of book id need to be clarified as it is not safe to expose db id");
     }
 
     @Operation(
