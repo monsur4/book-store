@@ -65,9 +65,9 @@ public class BookController {
     @Operation(
             summary = "Update book details",
             description = "Updates the details of a book")
-    @PatchMapping("/title/{title}")
-    public ResponseEntity<?> updateBook(@RequestBody BookUpdateRequestDto dto, @PathVariable String title){
-        return ResponseEntity.accepted().body(bookService.updateBookDetails(dto, title));
+    @PatchMapping("/isbn/{isbn}")
+    public ResponseEntity<?> updateBook(@RequestBody BookUpdateRequestDto dto, @PathVariable String isbn){
+        return ResponseEntity.accepted().body(bookService.updateBookDetails(dto, isbn));
     }
 
     @Operation(

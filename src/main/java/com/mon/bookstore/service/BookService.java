@@ -18,7 +18,7 @@ public interface BookService {
 
     BookDto getBookIsbn(String isbn);
 
-    BookDto updateBookDetails(BookUpdateRequestDto dto, String id);
+    BookDto updateBookDetails(BookUpdateRequestDto dto, String isbn);
 
     void deleteBookByTitle(String title);
 

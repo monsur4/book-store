@@ -85,9 +85,9 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookDto updateBookDetails(BookUpdateRequestDto dto, String title) {
-        Book book = bookRepository.findByTitle(title)
-                .orElseThrow(() -> new BookNotFoundException(String.format("book with this title [%s] cannot be found", title)));
+    public BookDto updateBookDetails(BookUpdateRequestDto dto, String isbn) {
+        Book book = bookRepository.findByIsbn(isbn)
+                .orElseThrow(() -> new BookNotFoundException(String.format("book with this isbn [%s] cannot be found", isbn)));
         if (dto.getTitle() != null) {
             book.setTitle(dto.getTitle());
         }
