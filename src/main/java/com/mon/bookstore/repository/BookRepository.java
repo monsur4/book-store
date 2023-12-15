@@ -2,6 +2,7 @@ package com.mon.bookstore.repository;
 
 import com.mon.bookstore.model.entity.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,9 +13,12 @@ public interface BookRepository extends JpaRepository<Book, String> {
 
     List<Book> findByTitleLikeIgnoreCase(String title);
 
-    void deleteByTitle(String title);
+    void deleteByIsbn(String isbn);
 
     List<Book> findByIsbnLikeIgnoreCase(String isbn);
 
     Optional<Book> findByIsbn(String isbn);
+
+    @Query(value = "SELECT * FROM book WHERE isAvailable=1", nativeQuery = true)
+    List<Book> fetchAllAvailableBooks();
 }

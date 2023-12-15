@@ -10,5 +10,5 @@ public class BookDto {
     private Integer pageCount;
     private String author;
     private String isbn;
-    private Integer numberAvailable;
+    private boolean isAvailable;
 }

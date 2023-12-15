@@ -39,7 +39,7 @@ public class Book {
     private String isbn;
 
     /**
-     * The number of this book available in the store
-     */
-    private Integer numberAvailable = 0;
+     * is this book available
+     * */
+    private Boolean isAvailable;
 }

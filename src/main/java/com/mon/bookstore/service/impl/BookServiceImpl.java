@@ -3,7 +3,6 @@ package com.mon.bookstore.service.impl;
 import com.mon.bookstore.dto.BookDto;
 import com.mon.bookstore.dto.request.BookAddRequestDto;
 import com.mon.bookstore.dto.request.BookUpdateRequestDto;
-import com.mon.bookstore.dto.response.RetrievedBooksResponseDto;
 import com.mon.bookstore.exceptions.BookNotFoundException;
 import com.mon.bookstore.exceptions.BookServiceException;
 import com.mon.bookstore.model.entity.Author;
@@ -33,16 +32,12 @@ public class BookServiceImpl implements BookService {
         // if it is not in store, then we create it
         // we use the isbn, because it is a unique identifier for any particular book (or book version)
         Optional<Book> optionalBook = bookRepository.findByIsbn(dto.getIsbn());
-        if (optionalBook.isPresent()){
-            Book bookEntity = optionalBook.get();
-            bookEntity.setNumberAvailable(bookEntity.getNumberAvailable() + 1);
-            bookRepository.save(bookEntity);
-            return mapBookToDto(bookEntity);
+        if (optionalBook.isPresent()) {
+            throw new BookServiceException(String.format("This book with details [%s] already exists", dto));
         }
 
         Book newBook = new Book();
         BeanUtils.copyProperties(dto, newBook);
-        newBook.setNumberAvailable(1);
 
         Author author;
         String authorName = dto.getAuthor().getName();
@@ -66,20 +61,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookDto getBookById(String id) {
-        Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new BookNotFoundException(String.format("book with this id [%s] cannot be found", id)));
-        return mapBookToDto(book);
-    }
-
-    @Override
     public List<BookDto> getBooksByAuthor(String authorName) {
-        // TODO: not currently implemented
-        return null;
-    }
-
-    @Override
-    public BookDto getBookIsbn(String isbn) {
         // TODO: not currently implemented
         return null;
     }
@@ -110,8 +92,8 @@ public class BookServiceImpl implements BookService {
             author.getBook().add(book);
             book.setAuthor(author);
         }
-        if(dto.getNumberToAdd() != null){
-            book.setNumberAvailable(book.getNumberAvailable() + dto.getNumberToAdd());
+        if (dto.getIsAvailable() != null) {
+            book.setIsAvailable(dto.getIsAvailable());
         }
         bookRepository.save(book);
         return mapBookToDto(book);
@@ -119,35 +101,15 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public void deleteBookByTitle(String title) {
-        bookRepository.deleteByTitle(title);
+    public void deleteBook(String isbn) {
+        bookRepository.deleteByIsbn(isbn);
     }
 
     private BookDto mapBookToDto(Book book) {
         BookDto bookDto = new BookDto();
         BeanUtils.copyProperties(book, bookDto);
         bookDto.setAuthor(book.getAuthor().getName());
-        bookDto.setNumberAvailable(book.getNumberAvailable());
         return bookDto;
-    }
-
-    @Override
-    public RetrievedBooksResponseDto retrieveBooks(String title, Integer number) {
-        Book book = bookRepository.findByTitle(title)
-                .orElseThrow(() -> new BookNotFoundException(String.format("there is no book with title [%s] in store", title)));
-        if (book.getNumberAvailable() < number){
-            throw new BookServiceException(String.format("there is not enough books with title [%s] to retrieve", title));
-        }
-        Integer numberRemaining = book.getNumberAvailable() - number;
-        book.setNumberAvailable(numberRemaining);
-        bookRepository.save(book);
-        return RetrievedBooksResponseDto.builder()
-                .title(book.getTitle())
-                .author(book.getAuthor().getName())
-                .isbn(book.getIsbn())
-                .numberRetrieved(number)
-                .numberRemaining(numberRemaining)
-                .build();
     }
 
     @Override
@@ -162,5 +124,10 @@ public class BookServiceImpl implements BookService {
         // TODO: add pagination
         List<Book> books = bookRepository.findByIsbnLikeIgnoreCase("%" + isbn + "%");
         return books.stream().map(this::mapBookToDto).toList();
+    }
+
+    @Override
+    public List<BookDto> fetchAllAvailableBooks() {
+        return bookRepository.fetchAllAvailableBooks().stream().map(this::mapBookToDto).collect(Collectors.toList());
     }
 }

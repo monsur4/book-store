@@ -11,6 +11,5 @@ public class BookUpdateRequestDto {
     private Integer pageCount;
     private AuthorDto author;
     private String isbn;
-    @PositiveOrZero
-    private Integer numberToAdd;
+    private Boolean isAvailable;
 }

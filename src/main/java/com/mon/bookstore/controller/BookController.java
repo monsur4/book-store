@@ -3,7 +3,6 @@ package com.mon.bookstore.controller;
 import com.mon.bookstore.dto.BookDto;
 import com.mon.bookstore.dto.request.BookAddRequestDto;
 import com.mon.bookstore.dto.request.BookUpdateRequestDto;
-import com.mon.bookstore.dto.response.RetrievedBooksResponseDto;
 import com.mon.bookstore.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -48,33 +47,32 @@ public class BookController {
     @Operation(
             summary = "Fetch all books",
             description = "Fetches all book entities and their data from data source")
-    @GetMapping()
+    @GetMapping("/all")
     public ResponseEntity<List<BookDto>> fetchAllBooks(){
         return ResponseEntity.ok(bookService.fetchAllBooks());
     }
 
     @Operation(
-            summary = "Retrieve books",
-            description = "Retrieve a specified number of books from data source")
-    @PatchMapping("/retrieve/title/{title}/number/{number}")
-    public ResponseEntity<RetrievedBooksResponseDto> retrieveBooks(@PathVariable("title") String title,
-                                                                   @PathVariable("number") Integer number){
-        return ResponseEntity.accepted().body(bookService.retrieveBooks(title, number));
+            summary = "Fetch all available books",
+            description = "Fetches all available book entities and their data from data source")
+    @GetMapping("/all-available")
+    public ResponseEntity<List<BookDto>> fetchAllAvailableBooks(){
+        return ResponseEntity.ok(bookService.fetchAllAvailableBooks());
     }
 
     @Operation(
             summary = "Update book details",
             description = "Updates the details of a book")
     @PatchMapping("/isbn/{isbn}")
-    public ResponseEntity<?> updateBook(@RequestBody BookUpdateRequestDto dto, @PathVariable String isbn){
+    public ResponseEntity<BookDto> updateBook(@RequestBody BookUpdateRequestDto dto, @PathVariable String isbn){
         return ResponseEntity.accepted().body(bookService.updateBookDetails(dto, isbn));
     }
 
     @Operation(
             summary = "Delete book",
-            description = "Delete a book by title from data source")
-    @DeleteMapping("/title/{title}")
-    public void deleteBook(@PathVariable String title){
-        bookService.deleteBookByTitle(title);
+            description = "Delete a book from the store")
+    @DeleteMapping("/isbn/{isbn}")
+    public void deleteBook(@PathVariable String isbn){
+        bookService.deleteBook(isbn);
     }
 }

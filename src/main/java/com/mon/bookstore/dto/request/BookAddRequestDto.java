@@ -3,6 +3,7 @@ package com.mon.bookstore.dto.request;
 import com.mon.bookstore.dto.AuthorDto;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
 
@@ -16,4 +17,6 @@ public class BookAddRequestDto {
     private AuthorDto author;
     @NotEmpty(message = "title must not be empty")
     private String isbn;
+    @NotNull(message = "isAvailable must not be null")
+    private Boolean isAvailable;
 }
