@@ -1,7 +1,7 @@
 package com.mon.bookstore.controller;
 
 import com.mon.bookstore.dto.BookDto;
-import com.mon.bookstore.dto.request.BookCreateRequestDto;
+import com.mon.bookstore.dto.request.BookAddRequestDto;
 import com.mon.bookstore.dto.request.BookUpdateRequestDto;
 import com.mon.bookstore.dto.response.RetrievedBooksResponseDto;
 import com.mon.bookstore.service.BookService;
@@ -25,7 +25,7 @@ public class BookController {
             summary = "Add books",
             description = "Add a book to the data source")
     @PostMapping
-    public ResponseEntity<BookDto> addBook(@RequestBody @Valid BookCreateRequestDto dto){
+    public ResponseEntity<BookDto> addBook(@RequestBody @Valid BookAddRequestDto dto){
         return new ResponseEntity<>(bookService.addBook(dto), HttpStatus.CREATED);
     }
 

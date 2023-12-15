@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.Data;
 
 @Data
-public class BookCreateRequestDto {
+public class BookAddRequestDto {
     @NotEmpty(message = "title must not be empty")
     private String title;
     @Positive(message = "pageCount must be a positive number")

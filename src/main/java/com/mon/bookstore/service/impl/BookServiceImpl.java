@@ -1,7 +1,7 @@
 package com.mon.bookstore.service.impl;
 
 import com.mon.bookstore.dto.BookDto;
-import com.mon.bookstore.dto.request.BookCreateRequestDto;
+import com.mon.bookstore.dto.request.BookAddRequestDto;
 import com.mon.bookstore.dto.request.BookUpdateRequestDto;
 import com.mon.bookstore.dto.response.RetrievedBooksResponseDto;
 import com.mon.bookstore.exceptions.BookNotFoundException;
@@ -28,14 +28,21 @@ public class BookServiceImpl implements BookService {
     private final AuthorRepository authorRepository;
 
     @Override
-    public BookDto addBook(BookCreateRequestDto dto) {
-        // if book is already in store, don't create
-        if (bookRepository.findByTitle(dto.getTitle()).isPresent())
-            throw new BookServiceException("this book already exists in the store");
+    public BookDto addBook(BookAddRequestDto dto) {
+        // if book is already in store, don't create it - instead we increase the number available
+        // if it is not in store, then we create it
+        // we use the isbn, because it is a unique identifier for any particular book (or book version)
+        Optional<Book> optionalBook = bookRepository.findByIsbn(dto.getIsbn());
+        if (optionalBook.isPresent()){
+            Book bookEntity = optionalBook.get();
+            bookEntity.setNumberAvailable(bookEntity.getNumberAvailable() + 1);
+            bookRepository.save(bookEntity);
+            return mapBookToDto(bookEntity);
+        }
 
-        Book book = new Book();
-        BeanUtils.copyProperties(dto, book);
-        book.setNumberAvailable(1);
+        Book newBook = new Book();
+        BeanUtils.copyProperties(dto, newBook);
+        newBook.setNumberAvailable(1);
 
         Author author;
         String authorName = dto.getAuthor().getName();
@@ -46,11 +53,11 @@ public class BookServiceImpl implements BookService {
             author = new Author();
             author.setName(authorName);
         }
-//        author.getBook().add(book);
-        book.setAuthor(author);
-        Book savedBook = bookRepository.save(book);
 
-        return mapBookToDto(savedBook);
+        newBook.setAuthor(author);
+        newBook = bookRepository.save(newBook);
+
+        return mapBookToDto(newBook);
     }
 
     @Override

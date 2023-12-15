@@ -18,7 +18,6 @@ public class Book {
     /**
      * The title of this book
      */
-    @Column(unique = true)
     private String title;
 
     /**
@@ -36,6 +35,7 @@ public class Book {
     /**
      * The isbn
      */
+    @Column(unique = true)
     private String isbn;
 
     /**
