@@ -19,6 +19,6 @@ public interface BookRepository extends JpaRepository<Book, String> {
 
     Optional<Book> findByIsbn(String isbn);
 
-    @Query(value = "SELECT * FROM book WHERE isAvailable=1", nativeQuery = true)
+    @Query(value = "SELECT * FROM book WHERE is_available=true", nativeQuery = true)
     List<Book> fetchAllAvailableBooks();
 }

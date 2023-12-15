@@ -40,6 +40,7 @@ public class Book {
 
     /**
      * is this book available
-     * */
+     */
+    @Column(name = "is_available")
     private Boolean isAvailable;
 }
