@@ -23,27 +23,26 @@ public class BookController {
 
     @Operation(
             summary = "Add books",
-            description = "Add a book to the data source")
+            description = "Add a book to the store")
     @PostMapping
     public ResponseEntity<BookDto> addBook(@RequestBody @Valid BookAddRequestDto dto){
         return new ResponseEntity<>(bookService.addBook(dto), HttpStatus.CREATED);
     }
 
     @Operation(
-            summary = "Fetch a book by id [concept of id need to be clarified]",
-            description = "fetches a book entity by id and its data from data source")
-    @GetMapping("/id/{id}")
-    public ResponseEntity<?> fetchBookById(@PathVariable String id){
-        // TODO: concept of id need to be clarified, as we cannot expose database id
-        return ResponseEntity.badRequest().body("the concept of book id need to be clarified as it is not safe to expose db id");
+            summary = "Fetch a book by isbn",
+            description = "fetches a book entity by isbn from the book store")
+    @GetMapping("/isbn/{isbn}")
+    public ResponseEntity<List<BookDto>> fetchBookByIsbn(@PathVariable String isbn){
+        return new ResponseEntity<>(bookService.fetchBookByIsbnLike(isbn), HttpStatus.OK);
     }
 
     @Operation(
             summary = "Fetch a book by title",
-            description = "fetches a book entity by title and its data from data source")
+            description = "fetches a book entity by title from the book store")
     @GetMapping("/title/{title}")
-    public ResponseEntity<BookDto> fetchBookByTitle(@PathVariable String title){
-        return ResponseEntity.ok(bookService.getBookByTitle(title));
+    public ResponseEntity<List<BookDto>> fetchBookByTitle(@PathVariable String title){
+        return ResponseEntity.ok(bookService.fetchBookByTitleLike(title));
     }
 
     @Operation(

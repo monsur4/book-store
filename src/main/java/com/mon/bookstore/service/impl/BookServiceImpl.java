@@ -151,9 +151,16 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookDto getBookByTitle(String title) {
-        Book book = bookRepository.findByTitle(title)
-                .orElseThrow(() -> new BookNotFoundException(String.format("book with this title [%s] cannot be found", title)));
-        return mapBookToDto(book);
+    public List<BookDto> fetchBookByTitleLike(String title) {
+        // TODO: add pagination
+        List<Book> books = bookRepository.findByTitleLikeIgnoreCase("%" + title + "%");
+        return books.stream().map(this::mapBookToDto).toList();
+    }
+
+    @Override
+    public List<BookDto> fetchBookByIsbnLike(String isbn) {
+        // TODO: add pagination
+        List<Book> books = bookRepository.findByIsbnLikeIgnoreCase("%" + isbn + "%");
+        return books.stream().map(this::mapBookToDto).toList();
     }
 }

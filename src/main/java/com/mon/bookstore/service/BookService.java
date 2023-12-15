@@ -24,5 +24,7 @@ public interface BookService {
 
     RetrievedBooksResponseDto retrieveBooks(String title, Integer number);
 
-    BookDto getBookByTitle(String title);
+    List<BookDto> fetchBookByTitleLike(String title);
+
+    List<BookDto> fetchBookByIsbnLike(String isbn);
 }
