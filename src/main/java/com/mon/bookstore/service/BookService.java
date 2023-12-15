@@ -10,7 +10,7 @@ import java.util.List;
 public interface BookService {
 
     BookDto addBook (BookAddRequestDto dto);
-    List<BookDto> getAllBooks();
+    List<BookDto> fetchAllBooks();
 
     BookDto getBookById(String id);
 

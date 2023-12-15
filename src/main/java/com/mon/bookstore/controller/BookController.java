@@ -49,8 +49,8 @@ public class BookController {
             summary = "Fetch all books",
             description = "Fetches all book entities and their data from data source")
     @GetMapping()
-    public ResponseEntity<List<BookDto>> getAllBooks(){
-        return ResponseEntity.ok(bookService.getAllBooks());
+    public ResponseEntity<List<BookDto>> fetchAllBooks(){
+        return ResponseEntity.ok(bookService.fetchAllBooks());
     }
 
     @Operation(
