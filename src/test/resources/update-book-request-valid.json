@@ -1,0 +1,9 @@
+{
+  "title": "Clean Code",
+  "pageCount": 576,
+  "author": {
+    "name": "Robert C. Martin"
+  },
+  "isbn": "12345678",
+  "isAvailable": true
+}

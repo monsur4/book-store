@@ -2,6 +2,7 @@ package com.mon.bookstore.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mon.bookstore.dto.request.BookAddRequestDto;
+import com.mon.bookstore.dto.request.BookUpdateRequestDto;
 import com.mon.bookstore.model.entity.Author;
 import com.mon.bookstore.model.entity.Book;
 import com.mon.bookstore.repository.AuthorRepository;
@@ -37,7 +38,7 @@ class BookServiceImplTest {
     @Test
     public void whenAddBook_BookIsSaved() throws IOException, URISyntaxException {
         // given
-        String bookAddRequestDtoString = readJsonAsString("create-book-valid.json");
+        String bookAddRequestDtoString = readJsonAsString("add-book-request-valid.json");
         BookAddRequestDto dto = objectMapper.readValue(bookAddRequestDtoString, BookAddRequestDto.class);
         Book book = new Book();
         BeanUtils.copyProperties(dto, book);
@@ -53,7 +54,30 @@ class BookServiceImplTest {
         bookService.addBook(dto);
 
         // then
-        verify(bookRepository, times(1)).save(any());
+        verify(bookRepository, times(1)).save(any(Book.class));
+    }
+
+    @Test
+    public void whenUpdateBookWithValidIsbn_BookIsUpdated() throws URISyntaxException, IOException {
+        // given
+        String bookUpdateRequestDtoString = readJsonAsString("update-book-request-valid.json");
+        BookUpdateRequestDto dto = objectMapper.readValue(bookUpdateRequestDtoString, BookUpdateRequestDto.class);
+        String isbn = "11112222";
+        Book book = new Book();
+        BeanUtils.copyProperties(dto, book);
+        Author author = new Author();
+        author.setName(dto.getAuthor().getName());
+        book.setAuthor(author);
+
+        // when
+        when(bookRepository.findByIsbn(anyString())).thenReturn(Optional.of(book));
+        when(authorRepository.findByName(anyString())).thenReturn(Optional.empty());
+        when(bookRepository.save(any(Book.class))).thenReturn(book);
+
+        bookService.updateBookDetails(dto, isbn);
+
+        // then
+        verify(bookRepository, times(1)).save(any(Book.class));
     }
 
     private static String readJsonAsString(String fileName) throws URISyntaxException, IOException {

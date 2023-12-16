@@ -120,7 +120,7 @@ public class BookServiceImpl implements BookService {
         if (dto.getIsAvailable() != null) {
             book.setIsAvailable(dto.getIsAvailable());
         }
-        bookRepository.save(book);
+        book = bookRepository.save(book);
         return mapBookToDto(book);
     }
 
