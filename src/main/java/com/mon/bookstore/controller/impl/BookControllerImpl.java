@@ -27,6 +27,19 @@ public class BookControllerImpl implements BookController {
         return new ResponseEntity<>(bookService.addBook(dto), HttpStatus.CREATED);
     }
 
+    public ResponseEntity<Void> deleteBook(@PathVariable String isbn){
+        bookService.deleteBook(isbn);
+        return ResponseEntity.noContent().build();
+    }
+
+    public ResponseEntity<List<BookDto>> fetchAllAvailableBooks(){
+        return ResponseEntity.ok(bookService.fetchAllAvailableBooks());
+    }
+
+    public ResponseEntity<List<BookDto>> fetchAllBooks(){
+        return ResponseEntity.ok(bookService.fetchAllBooks());
+    }
+
     public ResponseEntity<List<BookDto>> fetchBookByIsbn(@PathVariable String isbn){
         return new ResponseEntity<>(bookService.fetchBookByIsbnLike(isbn), HttpStatus.OK);
     }
@@ -35,20 +48,8 @@ public class BookControllerImpl implements BookController {
         return ResponseEntity.ok(bookService.fetchBookByTitleLike(title));
     }
 
-    public ResponseEntity<List<BookDto>> fetchAllBooks(){
-        return ResponseEntity.ok(bookService.fetchAllBooks());
-    }
-
-    public ResponseEntity<List<BookDto>> fetchAllAvailableBooks(){
-        return ResponseEntity.ok(bookService.fetchAllAvailableBooks());
-    }
-
     public ResponseEntity<BookDto> updateBook(@RequestBody BookUpdateRequestDto dto, @PathVariable String isbn){
         return ResponseEntity.accepted().body(bookService.updateBookDetails(dto, isbn));
     }
 
-    public ResponseEntity<Void> deleteBook(@PathVariable String isbn){
-        bookService.deleteBook(isbn);
-        return ResponseEntity.noContent().build();
-    }
 }

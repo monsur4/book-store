@@ -16,16 +16,6 @@ public class Book {
     private String id;
 
     /**
-     * The title of this book
-     */
-    private String title;
-
-    /**
-     * The number of pages
-     */
-    private Integer pageCount;
-
-    /**
      * The author
      */
     @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
@@ -43,4 +33,14 @@ public class Book {
      */
     @Column(name = "is_available")
     private Boolean isAvailable;
+
+    /**
+     * The number of pages
+     */
+    private Integer pageCount;
+
+    /**
+     * The title of this book
+     */
+    private String title;
 }

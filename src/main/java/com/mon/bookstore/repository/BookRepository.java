@@ -11,14 +11,14 @@ import java.util.Optional;
 @Repository
 public interface BookRepository extends JpaRepository<Book, String> {
 
-    List<Book> findByTitleLikeIgnoreCase(String title);
-
     void deleteByIsbn(String isbn);
-
-    List<Book> findByIsbnLikeIgnoreCase(String isbn);
-
-    Optional<Book> findByIsbn(String isbn);
 
     @Query(value = "SELECT * FROM book WHERE is_available=true", nativeQuery = true)
     List<Book> fetchAllAvailableBooks();
+
+    Optional<Book> findByIsbn(String isbn);
+
+    List<Book> findByIsbnLikeIgnoreCase(String isbn);
+
+    List<Book> findByTitleLikeIgnoreCase(String title);
 }

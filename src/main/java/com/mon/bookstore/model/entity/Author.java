@@ -18,12 +18,12 @@ public class Author {
     @Column(name = "author_id")
     private String id;
 
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Collection<Book> book = new HashSet<>();
+
     /**
      * The name of this author
      */
     @Column(unique = true)
     private String name;
-
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Collection<Book> book = new HashSet<>();
 }

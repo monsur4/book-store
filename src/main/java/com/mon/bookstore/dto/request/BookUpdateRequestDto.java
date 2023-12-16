@@ -6,10 +6,10 @@ import lombok.Data;
 
 @Data
 public class BookUpdateRequestDto {
-    private String title;
-    @PositiveOrZero
-    private Integer pageCount;
     private AuthorDto author;
     private String isbn;
     private Boolean isAvailable;
+    @PositiveOrZero
+    private Integer pageCount;
+    private String title;
 }

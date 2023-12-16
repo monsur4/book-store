@@ -33,17 +33,6 @@ public class SecurityConfig{
         return http.build();
     }
 
-    private static final String[] AUTH_WHITE_LIST = {
-            "v3/api-docs/**",
-            "swagger-ui/**",
-            "v2/api-docs/**",
-            "swagger-resources/**",
-            "*.html",
-            "swagger.json",
-            "swagger-ui.html",
-            "configuration/ui"
-    };
-
     @Bean
     public UserDetailsService userDetailsService() {
         UserDetails user =
@@ -55,4 +44,15 @@ public class SecurityConfig{
 
         return new InMemoryUserDetailsManager(user);
     }
+
+    private static final String[] AUTH_WHITE_LIST = {
+            "v3/api-docs/**",
+            "swagger-ui/**",
+            "v2/api-docs/**",
+            "swagger-resources/**",
+            "*.html",
+            "swagger.json",
+            "swagger-ui.html",
+            "configuration/ui"
+    };
 }

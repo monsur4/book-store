@@ -56,8 +56,33 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional
+    public void deleteBook(String isbn) {
+        bookRepository.deleteByIsbn(isbn);
+    }
+
+    @Override
+    public List<BookDto> fetchAllAvailableBooks() {
+        return bookRepository.fetchAllAvailableBooks().stream().map(this::mapBookToDto).collect(Collectors.toList());
+    }
+
+    @Override
     public List<BookDto> fetchAllBooks() {
         return bookRepository.findAll().stream().map(this::mapBookToDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<BookDto> fetchBookByIsbnLike(String isbn) {
+        // TODO: add pagination
+        List<Book> books = bookRepository.findByIsbnLikeIgnoreCase("%" + isbn + "%");
+        return books.stream().map(this::mapBookToDto).toList();
+    }
+
+    @Override
+    public List<BookDto> fetchBookByTitleLike(String title) {
+        // TODO: add pagination
+        List<Book> books = bookRepository.findByTitleLikeIgnoreCase("%" + title + "%");
+        return books.stream().map(this::mapBookToDto).toList();
     }
 
     @Override
@@ -99,35 +124,10 @@ public class BookServiceImpl implements BookService {
         return mapBookToDto(book);
     }
 
-    @Override
-    @Transactional
-    public void deleteBook(String isbn) {
-        bookRepository.deleteByIsbn(isbn);
-    }
-
     private BookDto mapBookToDto(Book book) {
         BookDto bookDto = new BookDto();
         BeanUtils.copyProperties(book, bookDto);
         bookDto.setAuthor(book.getAuthor().getName());
         return bookDto;
-    }
-
-    @Override
-    public List<BookDto> fetchBookByTitleLike(String title) {
-        // TODO: add pagination
-        List<Book> books = bookRepository.findByTitleLikeIgnoreCase("%" + title + "%");
-        return books.stream().map(this::mapBookToDto).toList();
-    }
-
-    @Override
-    public List<BookDto> fetchBookByIsbnLike(String isbn) {
-        // TODO: add pagination
-        List<Book> books = bookRepository.findByIsbnLikeIgnoreCase("%" + isbn + "%");
-        return books.stream().map(this::mapBookToDto).toList();
-    }
-
-    @Override
-    public List<BookDto> fetchAllAvailableBooks() {
-        return bookRepository.fetchAllAvailableBooks().stream().map(this::mapBookToDto).collect(Collectors.toList());
     }
 }
