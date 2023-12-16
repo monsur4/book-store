@@ -46,7 +46,7 @@ the service will be available on port 8080
 
 ### Alternatively you can start a container from the docker hub image:
 
-      docker run -p 8080:8080 monsuru/book-store:1.0.1
+      docker run -p 8080:8080 --name bookstore-container monsuru/book-store:1.0.1
 the service will be available on port 8080
 
 ### NB: 
