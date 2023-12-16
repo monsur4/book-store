@@ -71,8 +71,9 @@ public class BookController {
     @Operation(
             summary = "Delete book",
             description = "Delete a book from the store")
-    @DeleteMapping("/isbn/{isbn}")
-    public void deleteBook(@PathVariable String isbn){
+    @DeleteMapping(value = "/isbn/{isbn}")
+    public ResponseEntity<Void> deleteBook(@PathVariable String isbn){
         bookService.deleteBook(isbn);
+        return ResponseEntity.noContent().build();
     }
 }
