@@ -3,6 +3,7 @@ package com.mon.bookstore.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mon.bookstore.dto.request.BookAddRequestDto;
 import com.mon.bookstore.dto.request.BookUpdateRequestDto;
+import com.mon.bookstore.exceptions.BookNotFoundException;
 import com.mon.bookstore.model.entity.Author;
 import com.mon.bookstore.model.entity.Book;
 import com.mon.bookstore.repository.AuthorRepository;
@@ -18,6 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class BookServiceImplTest {
@@ -55,6 +57,21 @@ class BookServiceImplTest {
 
         // then
         verify(bookRepository, times(1)).save(any(Book.class));
+    }
+
+    @Test
+    public void whenUpdateBookWithInValidIsbn_ExceptionIsThrown() throws URISyntaxException, IOException {
+        // given
+        String bookUpdateRequestDtoString = readJsonAsString("update-book-request-valid.json");
+        BookUpdateRequestDto dto = objectMapper.readValue(bookUpdateRequestDtoString, BookUpdateRequestDto.class);
+        String isbn = "11112222";
+
+        // when
+        when(bookRepository.findByIsbn(anyString())).thenReturn(Optional.empty());
+        when(authorRepository.findByName(anyString())).thenReturn(Optional.empty());
+
+        // then
+        assertThrows(BookNotFoundException.class, () -> bookService.updateBookDetails(dto, isbn));
     }
 
     @Test
