@@ -29,7 +29,7 @@ public class SecurityConfig{
                 .authorizeHttpRequests((requests) -> requests
                                 .requestMatchers(AUTH_WHITE_LIST).permitAll()
                                 .requestMatchers(antMatcher("/h2/**")).permitAll()
-                                .anyRequest().permitAll()
+                                .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults());
 
@@ -51,11 +51,6 @@ public class SecurityConfig{
     private static final String[] AUTH_WHITE_LIST = {
             "v3/api-docs/**",
             "swagger-ui/**",
-            "v2/api-docs/**",
-            "swagger-resources/**",
-            "*.html",
-            "swagger.json",
-            "swagger-ui.html",
-            "configuration/ui"
+            "swagger-ui.html"
     };
 }

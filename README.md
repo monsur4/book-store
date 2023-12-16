@@ -21,7 +21,7 @@ Clone the repo
 
 Run the tests
 
-    `/mvnw clean test`
+    `./mvnw clean test`
 
 Build the application
 
@@ -34,12 +34,6 @@ The application should start up on port 8080
 
 ## Building the Docker image
 CD into the root directory of this module
-
-Run the command below to create the jar file locally on a host machine
-
-    ./mvnw clean install
-
-This creates a jar file located in `target/book-store-0.0.1-SNAPSHOT.jar`
 
 Then build the Docker image
 
