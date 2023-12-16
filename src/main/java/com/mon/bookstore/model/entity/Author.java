@@ -3,8 +3,8 @@ package com.mon.bookstore.model.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 
 @Table
 @Entity(name = "author")
@@ -25,5 +25,5 @@ public class Author {
     private String name;
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Book> book = new HashSet<>();
+    private Collection<Book> book = new HashSet<>();
 }
