@@ -29,8 +29,8 @@ public class BookController {
     }
 
     @Operation(
-            summary = "Fetch a book by isbn",
-            description = "fetches a book entity by isbn from the book store")
+            summary = "Fetch books by isbn",
+            description = "Fetch all book entities with matching isbn from the book store")
     @GetMapping("/isbn/{isbn}")
     public ResponseEntity<List<BookDto>> fetchBookByIsbn(@PathVariable String isbn){
         return new ResponseEntity<>(bookService.fetchBookByIsbnLike(isbn), HttpStatus.OK);
