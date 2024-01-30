@@ -44,6 +44,10 @@ Then build the Docker image
       docker run -p 8080:8080 book-store:v1
 the service will be available on port 8080
 
+### To provide alternate datasource credentials, run
+
+    docker build --build-arg DATASOURCE_USERNAME=<<your_username>> --build-arg DATASOURCE_PASSWORD=<<your_password>> -t book-store:v1 .
+
 ### Alternatively you can start a container from the docker hub image:
 
       docker run -p 8080:8080 --name bookstore-container monsuru/book-store:1.0.1
