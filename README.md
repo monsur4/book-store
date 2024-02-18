@@ -1,6 +1,6 @@
 # Book Store
 
-This is a repository for a basic book store application
+This is a repository for a basic book store application.
 
 ## Getting Started
 
